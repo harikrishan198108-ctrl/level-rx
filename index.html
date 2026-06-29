@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LevelsRx - Eligibility Assessment</title>
+    <style>
+        :root {
+            --bg-color: #0b1320; /* Dark navy from the ad */
+            --text-main: #ffffff;
+            --accent-orange: #ff6b00;
+            --card-bg: #152238;
+            --hover-bg: #1f314c;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px; /* Mobile-optimized width */
+            padding: 20px;
+            box-sizing: border-box;
+            margin-top: 5vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            color: #a0aec0;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: var(--card-bg);
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--accent-orange);
+            width: 33%; /* Starts at step 1 */
+            transition: width 0.3s ease;
+        }
+
+        .question-step {
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.4s ease;
+        }
+
+        .question-step.active {
+            display: block;
+        }
+
+        .question-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        /* Large, mobile-friendly tap targets instead of radio buttons */
+        .option-btn {
+            display: block;
+            width: 100%;
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 2px solid transparent;
+            padding: 18px 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .option-btn:hover, .option-btn:active {
+            background-color: var(--hover-bg);
+            border-color: #3b5070;
+        }
+
+        .final-cta {
+            background-color: var(--accent-orange);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            border: none;
+            padding: 18px 20px;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LevelsRx</h1>
+        <p>Personalized Weight Loss Eligibility</p>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- Question 1 -->
+    <div class="question-step active" id="step-1">
+        <div class="question-title">1. What is your primary health goal?</div>
+        <button class="option-btn" onclick="nextStep(2)">Lose significant weight (15+ lbs)</button>
+        <button class="option-btn" onclick="nextStep(2)">Lose a few stubborn pounds</button>
+        <button class="option-btn" onclick="nextStep(2)">Improve metabolic health & insulin resistance</button>
+    </div>
+
+    <!-- Question 2 -->
+    <div class="question-step" id="step-2">
+        <div class="question-title">2. Have you previously struggled with traditional diet and exercise programs?</div>
+        <button class="option-btn" onclick="nextStep(3)">Yes, I hit plateaus constantly.</button>
+        <button class="option-btn" onclick="nextStep(3)">Yes, I lose weight but always gain it back.</button>
+        <button class="option-btn" onclick="nextStep(3)">No, I'm just starting my journey.</button>
+    </div>
+
+    <!-- Question 3 -->
+    <div class="question-step" id="step-3">
+        <div class="question-title">3. GLP-1 medications are generally prescribed based on BMI. Do you know your current BMI?</div>
+        <button class="option-btn" onclick="showResults()">It is 30 or higher</button>
+        <button class="option-btn" onclick="showResults()">It is between 27 and 30</button>
+        <button class="option-btn" onclick="showResults()">It is under 27</button>
+        <button class="option-btn" onclick="showResults()">I'm not sure</button>
+    </div>
+
+    <!-- Final Result / Lead Form CTA -->
+    <div class="question-step" id="step-4">
+        <div class="question-title">You're one step away from clinician-guided support.</div>
+        <p style="color: #a0aec0; margin-bottom: 25px; line-height: 1.5;">Based on your answers, you may be eligible for compounded Semaglutide or Tirzepatide. Complete your profile to connect with a licensed clinician.</p>
+        <button class="final-cta" onclick="window.location.href='YOUR_LEVELSRX_CHECKOUT_URL_HERE'">Continue to Profile</button>
+    </div>
+
+</div>
+
+<script>
+    function nextStep(stepNumber) {
+        // Hide all steps
+        document.querySelectorAll('.question-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show next step
+        document.getElementById('step-' + stepNumber).classList.add('active');
+        
+        // Update progress bar
+        const progressPercentage = (stepNumber / 3) * 100;
+        document.getElementById('progress').style.width = progressPercentage > 100 ? '100%' : progressPercentage + '%';
+    }
+
+    function showResults() {
+        // Hide all steps
+        document.querySelectorAll('.question-step').forEach(step => {
+            step.classList.remove('active');
+        });
+        
+        // Show final CTA step
+        document.getElementById('step-4').classList.add('active');
+        document.getElementById('progress').style.width = '100%';
+        document.getElementById('progress').style.backgroundColor = '#4ade80'; // Turn progress bar green at the end
+    }
+</script>
+
+</body>
+</html>
