@@ -6,7 +6,7 @@
     <title>LevelsRx - Eligibility Assessment</title>
     <style>
         :root {
-            --bg-color: #0b1320; /* Dark navy from the ad */
+            --bg-color: #0b1320; 
             --text-main: #ffffff;
             --accent-orange: #ff6b00;
             --card-bg: #152238;
@@ -27,7 +27,7 @@
 
         .container {
             width: 100%;
-            max-width: 500px; /* Mobile-optimized width */
+            max-width: 500px; 
             padding: 20px;
             box-sizing: border-box;
             margin-top: 5vh;
@@ -62,12 +62,12 @@
         .progress-fill {
             height: 100%;
             background-color: var(--accent-orange);
-            width: 33%; /* Starts at step 1 */
+            width: 33%; 
             transition: width 0.3s ease;
         }
 
         .question-step {
-            display: none; /* Hidden by default */
+            display: none; 
             animation: fadeIn 0.4s ease;
         }
 
@@ -82,7 +82,6 @@
             font-weight: 600;
         }
 
-        /* Large, mobile-friendly tap targets instead of radio buttons */
         .option-btn {
             display: block;
             width: 100%;
@@ -165,36 +164,32 @@
     <div class="question-step" id="step-4">
         <div class="question-title">You're one step away from clinician-guided support.</div>
         <p style="color: #a0aec0; margin-bottom: 25px; line-height: 1.5;">Based on your answers, you may be eligible for compounded Semaglutide or Tirzepatide. Complete your profile to connect with a licensed clinician.</p>
-        <button class="final-cta" onclick="window.location.href='YOUR_LEVELSRX_CHECKOUT_URL_HERE'">Continue to Profile</button>
+        <!-- The hop link has been placed in the onclick event below -->
+        <button class="final-cta" onclick="window.location.href='https://levelsrx.com/?_ef_transaction_id=&affid=144&oid=407&oid=407&affid=144'">Continue to Profile</button>
     </div>
 
 </div>
 
 <script>
     function nextStep(stepNumber) {
-        // Hide all steps
         document.querySelectorAll('.question-step').forEach(step => {
             step.classList.remove('active');
         });
         
-        // Show next step
         document.getElementById('step-' + stepNumber).classList.add('active');
         
-        // Update progress bar
         const progressPercentage = (stepNumber / 3) * 100;
         document.getElementById('progress').style.width = progressPercentage > 100 ? '100%' : progressPercentage + '%';
     }
 
     function showResults() {
-        // Hide all steps
         document.querySelectorAll('.question-step').forEach(step => {
             step.classList.remove('active');
         });
         
-        // Show final CTA step
         document.getElementById('step-4').classList.add('active');
         document.getElementById('progress').style.width = '100%';
-        document.getElementById('progress').style.backgroundColor = '#4ade80'; // Turn progress bar green at the end
+        document.getElementById('progress').style.backgroundColor = '#4ade80'; 
     }
 </script>
 
